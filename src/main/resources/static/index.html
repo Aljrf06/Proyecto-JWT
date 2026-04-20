@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login JWT</title>
+    <style>
+        * { box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f0f2f5; display: flex; justify-content: center; padding: 40px; }
+        .card { background: white; padding: 30px; border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.1); width: 420px; }
+        h2 { margin-top: 0; color: #333; }
+        input { width: 100%; padding: 10px; margin: 6px 0 14px;
+                border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+        button { width: 100%; padding: 11px; background: #4f46e5;
+                 color: white; border: none; border-radius: 8px;
+                 font-size: 15px; cursor: pointer; margin-bottom: 8px; }
+        button:hover { background: #4338ca; }
+        button.secondary { background: #0ea5e9; }
+        button.secondary:hover { background: #0284c7; }
+        #respuesta { margin-top: 16px; background: #f8f9fa; padding: 12px;
+                     border-radius: 8px; font-size: 13px; word-break: break-all;
+                     display: none; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 8px; border: none; border-radius: 8px;
+               cursor: pointer; background: #e5e7eb; font-size: 14px; }
+        .tab.active { background: #4f46e5; color: white; }
+        .section { display: none; }
+        .section.active { display: block; }
+        label { font-size: 13px; color: #555; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Auth JWT</h2>
+
+    <div class="tabs">
+        <button class="tab active" onclick="mostrarTab('registro')">Registrar</button>
+        <button class="tab" onclick="mostrarTab('login')">Login</button>
+        <button class="tab" onclick="mostrarTab('perfil')">Perfil</button>
+    </div>
+
+    <!-- REGISTRO -->
+    <div id="tab-registro" class="section active">
+        <label>Nombre</label>
+        <input id="r-nombre" placeholder="Juan">
+        <label>Apellido</label>
+        <input id="r-apellido" placeholder="Pérez">
+        <label>Correo</label>
+        <input id="r-correo" type="email" placeholder="juan@correo.com">
+        <label>Contraseña</label>
+        <input id="r-contrasena" type="password">
+        <label>Teléfono</label>
+        <input id="r-telefono" type="number" placeholder="3001234567">
+        <button onclick="registrar()">Registrar con fetch()</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="tab-login" class="section">
+        <label>Correo</label>
+        <input id="l-correo" type="email" placeholder="juan@correo.com">
+        <label>Contraseña</label>
+        <input id="l-contrasena" type="password">
+        <button onclick="loginFetch()">Login con fetch()</button>
+        <button class="secondary" onclick="loginXHR()">Login con XMLHttpRequest</button>
+    </div>
+
+    <!-- PERFIL PROTEGIDO -->
+    <div id="tab-perfil" class="section">
+        <p style="color:#555;font-size:14px">Llama al endpoint protegido <code>/usuario/perfil</code> usando el token guardado.</p>
+        <button onclick="verPerfil()">Ver perfil (Bearer Token)</button>
+    </div>
+
+    <div id="respuesta"></div>
+</div>
+
+<script>
+    const BASE = "http://localhost:8080";
+    let tokenAcceso = "";
+
+    function mostrarTab(nombre) {
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById("tab-" + nombre).classList.add("active");
+      event.target.classList.add("active");
+    }
+
+    function mostrarRespuesta(data) {
+      const div = document.getElementById("respuesta");
+      div.style.display = "block";
+      div.innerHTML = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      if (data.acceso_token) {
+        tokenAcceso = data.acceso_token;
+        div.innerHTML += "<p style='color:green'>✅ Token guardado en memoria</p>";
+      }
+    }
+
+    // ── FETCH ──────────────────────────────────────────
+    async function registrar() {
+      const body = {
+        nombre: document.getElementById("r-nombre").value,
+        apellido: document.getElementById("r-apellido").value,
+        correo: document.getElementById("r-correo").value,
+        contrasena: document.getElementById("r-contrasena").value,
+        telefono: parseInt(document.getElementById("r-telefono").value)
+      };
+      try {
+        const res = await fetch(`${BASE}/usuario/registrar`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        mostrarRespuesta(await res.json());
+      } catch (e) {
+        mostrarRespuesta({ error: e.message });
+      }
+    }
+
+    async function loginFetch() {
+      const body = {
+        correo: document.getElementById("l-correo").value,
+        contrasena: document.getElementById("l-contrasena").value
+      };
+      try {
+        const res = await fetch(`${BASE}/usuario/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        mostrarRespuesta(await res.json());
+      } catch (e) {
+        mostrarRespuesta({ error: e.message });
+      }
+    }
+
+    // ── XMLHttpRequest ─────────────────────────────────
+    function loginXHR() {
+      const body = JSON.stringify({
+        correo: document.getElementById("l-correo").value,
+        contrasena: document.getElementById("l-contrasena").value
+      });
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${BASE}/usuario/login`);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          const data = JSON.parse(xhr.responseText);
+          mostrarRespuesta(data);
+        }
+      };
+      xhr.send(body);
+    }
+
+    // ── RUTA PROTEGIDA ─────────────────────────────────
+    async function verPerfil() {
+      if (!tokenAcceso) {
+        mostrarRespuesta({ error: "Debes hacer login primero" });
+        return;
+      }
+      try {
+        const res = await fetch(`${BASE}/usuario/perfil`, {
+          headers: { "Authorization": "Bearer " + tokenAcceso }
+        });
+        const texto = await res.text();
+        mostrarRespuesta({ mensaje: texto, status: res.status });
+      } catch (e) {
+        mostrarRespuesta({ error: e.message });
+      }
+    }
+</script>
+</body>
+</html>
