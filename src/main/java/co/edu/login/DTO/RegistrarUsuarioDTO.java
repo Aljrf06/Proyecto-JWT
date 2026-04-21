@@ -14,5 +14,5 @@ public class RegistrarUsuarioDTO {
     private String apellido;
     private String correo;
     private String contrasena;
-    private int telefono;
+    private String telefono;
 }

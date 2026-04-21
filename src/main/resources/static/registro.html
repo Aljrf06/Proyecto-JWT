@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro — JWT App</title>
+  <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-$END$
+
+<div class="card" style="max-width:480px">
+
+  <!-- Encabezado -->
+  <div class="card-header">
+    <div class="badge"><span></span>Nuevo usuario</div>
+    <h1>Crear Cuenta</h1>
+    <p>Completa los datos para registrarte</p>
+  </div>
+
+  <!-- Alerta -->
+  <div id="alerta" class="alert"></div>
+
+  <!-- Formulario -->
+  <form onsubmit="handleRegistro(event)">
+
+    <!-- Fila: nombre + apellido -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input
+                type="text"
+                id="nombre"
+                placeholder="Juan"
+                autocomplete="given-name"
+                required
+        />
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input
+                type="text"
+                id="apellido"
+                placeholder="Pérez"
+                autocomplete="family-name"
+                required
+        />
+      </div>
+    </div>
+
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="correo">Correo electrónico</label>
+      <input
+              type="email"
+              id="correo"
+              placeholder="ejemplo@correo.com"
+              autocomplete="email"
+              required
+      />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input
+              type="number"
+              id="telefono"
+              placeholder="3001234567"
+              autocomplete="tel"
+              required
+      />
+    </div>
+
+    <!-- Contraseñas -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input
+                type="password"
+                id="contrasena"
+                placeholder="Mínimo 4 caracteres"
+                autocomplete="new-password"
+                required
+        />
+      </div>
+      <div class="form-group">
+        <label for="confirmar">Confirmar</label>
+        <input
+                type="password"
+                id="confirmar"
+                placeholder="Repite la contraseña"
+                autocomplete="new-password"
+                required
+        />
+      </div>
+    </div>
+
+    <button type="submit" id="btnReg" class="btn">
+      Crear cuenta
+    </button>
+
+  </form>
+
+  <div class="nav-link">
+    ¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a>
+  </div>
+
+</div>
+
+<script src="Auth.js"></script>
+<script>
+  redirigirSiLogueado();
+</script>
 </body>
 </html>

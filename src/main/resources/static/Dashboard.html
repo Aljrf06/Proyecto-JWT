@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - JWT App</title>
+    <link rel="stylesheet" href="estilos.css" />
 </head>
-<body>
-$END$
+<body class="db">
+
+<nav class="navbar">
+    <div class="nav-brand">
+        <em></em> JWT · Dashboard
+    </div>
+    <div class="nav-right">
+        <div class="chip">Sesion: <b id="nav-user">...</b></div>
+        <button class="btn-out" onclick="logout()">Cerrar sesion</button>
+    </div>
+</nav>
+
+<div class="db-wrap">
+    <div class="banner">
+        <h2>Bienvenido, <span id="banner-nombre">...</span></h2>
+        <p>Autenticado correctamente · Token JWT activo</p>
+    </div>
+
+    <div class="sec">
+        <div class="sec-ttl">Datos del usuario</div>
+
+        <div class="grid3">
+            <div class="icard">
+                <div class="lbl">Nombre</div>
+                <div class="val" id="d-nombre">-</div>
+            </div>
+            <div class="icard">
+                <div class="lbl">Apellido</div>
+                <div class="val" id="d-apellido">-</div>
+            </div>
+            <div class="icard">
+                <div class="lbl">Correo</div>
+                <div class="val" id="d-correo">-</div>
+            </div>
+            <div class="icard">
+                <div class="lbl">Telefono</div>
+                <div class="val" id="d-telefono">-</div>
+            </div>
+            <div class="icard">
+                <div class="lbl">Estado</div>
+                <div class="val" style="color:var(--ok)">Activo</div>
+            </div>
+            <div class="icard">
+                <div class="lbl">Rol</div>
+                <div class="val">ROLE_USER</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="Auth.js"></script>
+<script>
+    proteger();
+
+    async function cargarDashboard() {
+        try {
+            const perfil = await fetchPerfilUsuario();
+            guardarDatosUsuario(
+                perfil.nombre,
+                perfil.apellido,
+                perfil.correo,
+                perfil.telefono
+            );
+        } catch (e) {
+            logout();
+            return;
+        }
+
+        document.getElementById("nav-user").textContent = obtenerUsuario();
+        document.getElementById("banner-nombre").textContent =
+            obtenerNombre() !== "-"
+                ? obtenerNombre() + " " + obtenerApellido()
+                : obtenerUsuario();
+        document.getElementById("d-nombre").textContent = obtenerNombre();
+        document.getElementById("d-apellido").textContent = obtenerApellido();
+        document.getElementById("d-correo").textContent = obtenerUsuario();
+        document.getElementById("d-telefono").textContent = obtenerTelefono();
+    }
+
+    cargarDashboard();
+</script>
 </body>
 </html>
