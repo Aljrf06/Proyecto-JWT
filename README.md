@@ -4,7 +4,8 @@ Este proyecto es un sistema de autenticación dividido en dos partes: un backend
 y un frontend desarrollado en HTML, CSS y JavaScript puro que consume esa API usando la función nativa `fetch` del navegador.
 
 ## 📁 Estructura del Proyecto
-<img width="479" height="804" alt="image" src="https://github.com/user-attachments/assets/85d79c6b-756e-417a-8eef-794d543a5b62" />
+<img width="481" height="876" alt="image" src="https://github.com/user-attachments/assets/315f0892-8395-4601-a811-3f9bd6206ccd" />
+<img width="484" height="220" alt="image" src="https://github.com/user-attachments/assets/baba10b9-47fb-4e0a-a319-3921342219aa" />
 
 ## ✅ ¿Cómo funciona el flujo?
 
