@@ -17,8 +17,10 @@ y un frontend desarrollado en HTML, CSS y JavaScript puro que consume esa API us
 ## 📸 Captura de pantalla resultado final 
 - Pantalla registro nuevo usuario
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cefba989-c776-451c-a6ab-a2683fb9d70e" />
+
 - Pantalla inicio sesión
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6db9e81f-e491-493a-b957-2c390a3ffaa0" />
+
 - Pantalla inicio sesión exitoso - Home
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/be83ea04-a569-4037-b37e-4b60d841b0b1" />
 
