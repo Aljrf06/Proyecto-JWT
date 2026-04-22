@@ -1,6 +1,6 @@
 # 🔐 Login con Spring Boot + JWT
  
-Este proyecto es un sistema de autenticación completo dividido en dos partes: un backend desarrollado en Spring Boot que expone una API REST protegida con JWT, 
+Este proyecto es un sistema de autenticación dividido en dos partes: un backend desarrollado en Spring Boot que expone una API REST protegida con JWT, 
 y un frontend desarrollado en HTML, CSS y JavaScript puro que consume esa API usando la función nativa `fetch` del navegador.
 
 ## 📁 Estructura del Proyecto
