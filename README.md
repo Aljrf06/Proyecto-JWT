@@ -25,6 +25,11 @@ y un frontend desarrollado en HTML, CSS y JavaScript puro que consume esa API us
 - Pantalla inicio sesión exitoso - Home
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/be83ea04-a569-4037-b37e-4b60d841b0b1" />
 
+## ¿Cómo se protegen las rutas?
+ 
+Existe un filtro en el servidor que revisa cada petición que llega antes de dejarla pasar. Si la petición va a una ruta protegida, el filtro busca el token JWT en el encabezado de la petición, lo valida y verifica que no esté vencido. Solo si todo está correcto deja pasar la petición y devuelve la respuesta. Si no hay token o es inválido, el servidor responde con un error 403 que significa acceso denegado. 
+Las rutas de registro y login son públicas porque cualquiera necesita acceder a ellas. Las demás rutas, como el perfil del usuario, son privadas y solo accesibles con un token válido.
+
 ## 👨‍💻 Autores
 
 - Alejandra Rodríguez Forero
